@@ -1,0 +1,4 @@
+<resources>
+    <attr name="colorCardBackground" format="color"/>
+    <attr name="colorSearchBarBackground" format="color"/>
+</resources>

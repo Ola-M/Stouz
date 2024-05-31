@@ -1,4 +1,4 @@
-package com.example.stouz.ui.home;
+package com.example.stouz.ui.favorites;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -18,7 +18,7 @@ import com.example.stouz.RestaurantAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class FavoritesFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private RestaurantAdapter restaurantAdapter;
@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        View root = inflater.inflate(R.layout.fragment_favorites, container, false);
 
         SearchView searchView = root.findViewById(R.id.searchView);
         recyclerView = root.findViewById(R.id.recyclerView);
@@ -37,13 +37,14 @@ public class HomeFragment extends Fragment {
         restaurantList = new ArrayList<>();
         filteredList = new ArrayList<>();
 
-        // Add dummy data
-        restaurantList.add(new Restaurant("Restaurant 1", "9 AM - 9 PM", 4.5, "https://example.com/image1.jpg"));
-        restaurantList.add(new Restaurant("Restaurant 2", "10 AM - 10 PM", 4.0, "https://example.com/image2.jpg"));
-        restaurantList.add(new Restaurant("Restaurant 3", "11 AM - 11 PM", 3.5, "https://example.com/image3.jpg"));
+        // Add dummy data for favorites
+        restaurantList.add(new Restaurant("Favorite Restaurant 1", "9 AM - 9 PM", 4.5, "https://marketplace.canva.com/EAFpeiTrl4c/1/0/1600w/canva-abstract-chef-cooking-restaurant-free-logo-9Gfim1S8fHg.jpg"));
+        restaurantList.add(new Restaurant("Favorite Restaurant 2", "10 AM - 10 PM", 4.0, "https://marketplace.canva.com/EAFpeiTrl4c/1/0/1600w/canva-abstract-chef-cooking-restaurant-free-logo-9Gfim1S8fHg.jpg"));
+        restaurantList.add(new Restaurant("Favorite Restaurant 3", "11 AM - 11 PM", 3.5, "https://marketplace.canva.com/EAFpeiTrl4c/1/0/1600w/canva-abstract-chef-cooking-restaurant-free-logo-9Gfim1S8fHg.jpg"));
 
         filteredList.addAll(restaurantList);
 
+        // Initialize the adapter
         restaurantAdapter = new RestaurantAdapter(getContext(), filteredList);
         recyclerView.setAdapter(restaurantAdapter);
 
@@ -64,9 +65,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void filter(String text) {
-        if (restaurantAdapter == null) {
-            return;
-        }
         filteredList.clear();
         for (Restaurant restaurant : restaurantList) {
             if (restaurant.getName().toLowerCase().contains(text.toLowerCase())) {

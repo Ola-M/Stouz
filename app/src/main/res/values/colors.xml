@@ -8,4 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="menuTextColor">#000000</color> <!-- Add this line -->
+    <color name="light_gray">#D3D3D3</color>
+    <color name="dark_gray">#505050</color>
+    <color name="green">#4CAF50</color>
+    <color name="orange">#FF9800</color>
+    <color name="red">#F44336</color>
+    <color name="darker_gray">#707070</color>
 </resources>

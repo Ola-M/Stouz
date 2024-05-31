@@ -1,4 +1,4 @@
-package com.example.stouz.ui.dashboard;
+package com.example.stouz.ui.favorites;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
