@@ -5,23 +5,19 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp"
-    app:cardElevation="4dp"
-    app:cardBackgroundColor="?attr/colorCardBackground"
-    app:cardUseCompatPadding="true"
-    android:clickable="true"
-    android:foreground="?attr/selectableItemBackground">
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="fitXY"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
             android:contentDescription="Restaurant Image" />
 
         <TextView
@@ -31,55 +27,55 @@
             android:gravity="center"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:text="Restaurant Name"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textAppearance="?attr/textAppearanceSubtitle1" />
+            android:text="Restaurant Name" />
+
+        <TextView
+            android:id="@+id/textViewHours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="9 AM - 9 PM" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
             <TextView
                 android:id="@+id/textViewRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Rating: 4.5"
+                android:text="4.5"
                 android:textStyle="bold"
-                android:textSize="16sp"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:id="@+id/ratingStars"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingStart="4dp"
-                android:paddingLeft="4dp">
-                <!-- Placeholder for stars, will be filled programmatically -->
-            </LinearLayout>
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
 
             <TextView
-                android:id="@+id/textViewHours"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Opening Hours"
-                android:textAppearance="?attr/textAppearanceBody2" />
-
-            <ImageButton
-                android:id="@+id/buttonFavorite"
+                android:id="@+id/textViewDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/btn_star_big_off"
-                android:contentDescription="Favorite" />
+                android:text="0 m"
+                android:layout_marginStart="8dp" /> <!-- Add distance TextView here -->
         </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/buttonFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/btn_star_big_off"
+            android:contentDescription="Favorite" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
