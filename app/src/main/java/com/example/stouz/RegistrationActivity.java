@@ -39,12 +39,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
                 RegisterUser();
-                SwitchActivity();
             }
         });
 
@@ -71,14 +71,35 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+            {
                 @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
+                public void onComplete(@NonNull Task<AuthResult> task)
+                {
                     if (task.isSuccessful()) {
-                        //Log.d(TAG, "createUserWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
-                        //updateUI(user);
-                    } else {
+                        user.sendEmailVerification()
+                            .addOnCompleteListener(new OnCompleteListener<Void>()
+                            {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task)
+                                {
+                                    if (task.isSuccessful())
+                                    {
+                                        Toast.makeText(RegistrationActivity.this, "Registred successfuly. Please check email for verification.",
+                                                Toast.LENGTH_LONG).show();
+
+                                        SwitchActivity();
+
+                                    }else{
+                                        Toast.makeText(RegistrationActivity.this, task.getException().getMessage(),
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                    }
+                    else
+                    {
                         String errorMessage = task.getException() != null ? task.getException().getMessage() : "Registration failed";
                         String messageInBrackets = extractMessageInBrackets(errorMessage);
 
@@ -89,7 +110,7 @@ public class RegistrationActivity extends AppCompatActivity {
             });
     }
     private void SwitchActivity(){
-        Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+        Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 

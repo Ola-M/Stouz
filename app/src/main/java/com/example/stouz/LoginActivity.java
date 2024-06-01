@@ -18,15 +18,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
 public class LoginActivity extends AppCompatActivity
 {
-
     private EditText emailEditText, passwordEditText;
     private Button loginButton;
     private TextView forgotPasswordTextView;
     private FirebaseAuth mAuth;
     private TextView register;
-    boolean isSuccessful = false;
 
 
     @Override
@@ -48,10 +48,7 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                if(mAuth.getCurrentUser() != null|| LoginUser())
-                {
-                    SwitchToMainActivity();
-                }
+                LoginUser();
             }
         });
 
@@ -74,7 +71,7 @@ public class LoginActivity extends AppCompatActivity
         });
     }
 
-    private boolean LoginUser()
+    private void LoginUser()
     {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
@@ -82,13 +79,13 @@ public class LoginActivity extends AppCompatActivity
         if (TextUtils.isEmpty(email))
         {
             emailEditText.setError("Email is required");
-            return false;
+            return;
         }
 
         if (TextUtils.isEmpty(password))
         {
             passwordEditText.setError("Password is required");
-            return false;
+            return;
         }
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -96,19 +93,17 @@ public class LoginActivity extends AppCompatActivity
             {
                 public void onComplete(@NonNull Task<AuthResult> task)
                 {
-                    if (task.isSuccessful())
+                    if (task.isSuccessful() && Objects.requireNonNull(mAuth.getCurrentUser()).isEmailVerified())
                     {
-                        isSuccessful = true;
                         Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                        SwitchToMainActivity();
                     }
                     else
                     {
-                        Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, task.getException().getMessage() , Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-
-        return isSuccessful;
     }
 
     private void SwitchToRegistrationActivity()
