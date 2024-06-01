@@ -10,4 +10,9 @@
         android:orderInCategory="100"
         android:title="@string/action_sign_in"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_change_theme"
+        android:title="@string/change_theme"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 </menu>

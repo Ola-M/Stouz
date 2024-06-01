@@ -16,9 +16,6 @@
             android:name=".ResetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity$ResetPasswordActivity"
-            android:exported="false" />
-        <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
         <activity

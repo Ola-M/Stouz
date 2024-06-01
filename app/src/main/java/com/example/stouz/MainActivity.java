@@ -7,17 +7,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -29,10 +23,18 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private Button loginButton;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        boolean isDarkTheme = sharedPreferences.getBoolean("isDarkTheme", false);
+        if (isDarkTheme) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -42,23 +44,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_favorites, R.id.navigation_promotions)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-
-        loginButton = findViewById(R.id.button);
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SwitchActivity();
-            }
-        });
 
         // Load saved language preference
         loadLocale();
@@ -75,28 +66,28 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_login:
-                // Handle login action
-                SwitchActivity();
+                switchActivity();
                 return true;
             case R.id.action_change_language:
-                // Handle language change
                 showLanguageChangeDialog();
+                return true;
+            case R.id.action_change_theme:
+                toggleTheme();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void SwitchActivity() {
+    private void switchActivity() {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
     private void showLanguageChangeDialog() {
-        // Show a dialog to select a language
-        String[] languages = {"English", "Polski"};
+        String[] languages = {getString(R.string.english), getString(R.string.polish)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select Language");
+        builder.setTitle(getString(R.string.select_language));
         builder.setItems(languages, (dialog, which) -> {
             switch (which) {
                 case 0:
@@ -106,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     setLocale("pl");
                     break;
             }
-            recreate(); // Restart activity to apply changes
+            recreate();
         });
         builder.show();
     }
@@ -115,7 +106,9 @@ public class MainActivity extends AppCompatActivity {
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
         Context context = getApplicationContext();
-        context.getResources().getConfiguration().setLocale(locale);
+        android.content.res.Configuration config = context.getResources().getConfiguration();
+        config.setLocale(locale);
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
 
         SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
         editor.putString("My_Lang", lang);
@@ -126,5 +119,24 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("Settings", MODE_PRIVATE);
         String language = prefs.getString("My_Lang", "en");
         setLocale(language);
+    }
+
+    private void toggleTheme() {
+        boolean isDarkTheme = sharedPreferences.getBoolean("isDarkTheme", false);
+        if (isDarkTheme) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            sharedPreferences.edit().putBoolean("isDarkTheme", false).apply();
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            sharedPreferences.edit().putBoolean("isDarkTheme", true).apply();
+        }
+        recreate();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+        return NavigationUI.navigateUp(navController, new AppBarConfiguration.Builder(navController.getGraph()).build())
+                || super.onSupportNavigateUp();
     }
 }
