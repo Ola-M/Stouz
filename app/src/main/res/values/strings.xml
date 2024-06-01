@@ -20,6 +20,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="change_language">Change language</string>
     <string name="reset_password">Reset password</string>
+    <string name="back_to_login">Back to login page</string>
     <string name="change_theme">Change Theme</string>
     <string name="english">English</string>
     <string name="polish">Polish</string>
