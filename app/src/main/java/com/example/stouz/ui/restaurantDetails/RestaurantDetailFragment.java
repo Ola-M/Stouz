@@ -1,4 +1,4 @@
-package com.example.stouz.ui.notifications;
+package com.example.stouz.ui.restaurantDetails;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

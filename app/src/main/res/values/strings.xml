@@ -25,6 +25,7 @@
     <string name="polish">Polish</string>
     <string name="select_language">Select Language</string>
     <string name="opening_hours">Opening Hours: %1$s</string>
-    <string name="title_restaurant_detail">title_restaurant_detail</string>
+    <string name="title_promotions">Promotions</string>
+    <string name="title_restaurant_detail">Restaurant Detail</string>
 
 </resources>

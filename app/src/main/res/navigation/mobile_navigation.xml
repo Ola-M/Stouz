@@ -17,14 +17,14 @@
         tools:layout="@layout/fragment_favorites" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.stouz.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_promotions"
+        android:name="com.example.stouz.ui.promotions.PromotionsFragment"
+        android:label="@string/title_promotions"
+        tools:layout="@layout/fragment_promotions" />
 
     <fragment
         android:id="@+id/navigation_restaurant_detail"
-        android:name="com.example.stouz.ui.notifications.RestaurantDetailFragment"
+        android:name="com.example.stouz.ui.restaurantDetails.RestaurantDetailFragment"
         android:label="@string/title_restaurant_detail"
         tools:layout="@layout/fragment_restaurant_detail" >
         <argument
