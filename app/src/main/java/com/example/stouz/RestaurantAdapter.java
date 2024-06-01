@@ -40,6 +40,14 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         holder.textViewHours.setText(restaurant.getOpeningHours());
         holder.textViewRating.setText(String.valueOf(restaurant.getRating()));
 
+        // Calculate and display distance
+        float distance = restaurant.getDistance();
+        if (distance > 1000) {
+            holder.textViewDistance.setText(String.format("%.1f km", distance / 1000));
+        } else {
+            holder.textViewDistance.setText(String.format("%.0f m", distance));
+        }
+
         // Set rating color based on value
         double rating = restaurant.getRating();
         if (rating >= 4.0) {
@@ -109,7 +117,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
     static class RestaurantViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView textViewName, textViewHours, textViewRating;
+        TextView textViewName, textViewHours, textViewRating, textViewDistance;
         ImageButton buttonFavorite;
         LinearLayout ratingStars;
 
@@ -119,6 +127,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             textViewName = itemView.findViewById(R.id.textViewName);
             textViewHours = itemView.findViewById(R.id.textViewHours);
             textViewRating = itemView.findViewById(R.id.textViewRating);
+            textViewDistance = itemView.findViewById(R.id.textViewDistance); // Add a TextView for distance
             buttonFavorite = itemView.findViewById(R.id.buttonFavorite);
             ratingStars = itemView.findViewById(R.id.ratingStars);
         }

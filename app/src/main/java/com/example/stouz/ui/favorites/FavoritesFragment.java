@@ -38,10 +38,9 @@ public class FavoritesFragment extends Fragment {
         filteredList = new ArrayList<>();
 
         // Add dummy data for favorites
-        restaurantList.add(new Restaurant("Favorite Restaurant 1", "9 AM - 9 PM", 4.5, "https://marketplace.canva.com/EAFpeiTrl4c/1/0/1600w/canva-abstract-chef-cooking-restaurant-free-logo-9Gfim1S8fHg.jpg"));
-        restaurantList.add(new Restaurant("Favorite Restaurant 2", "10 AM - 10 PM", 4.0, "https://marketplace.canva.com/EAFpeiTrl4c/1/0/1600w/canva-abstract-chef-cooking-restaurant-free-logo-9Gfim1S8fHg.jpg"));
-        restaurantList.add(new Restaurant("Favorite Restaurant 3", "11 AM - 11 PM", 3.5, "https://marketplace.canva.com/EAFpeiTrl4c/1/0/1600w/canva-abstract-chef-cooking-restaurant-free-logo-9Gfim1S8fHg.jpg"));
-
+        restaurantList.add(new Restaurant("Restaurant 1", "9 AM - 9 PM", 4.5, "https://example.com/image1.jpg", 40.748817, -73.985428)); // Example coordinates for NYC
+        restaurantList.add(new Restaurant("Restaurant 2", "10 AM - 8 PM", 4.0, "https://example.com/image2.jpg", 37.774929, -122.419416)); // Example coordinates for San Francisco
+        restaurantList.add(new Restaurant("Restaurant 3", "11 AM - 10 PM", 3.5, "https://example.com/image3.jpg", 34.052235, -118.243683));
         filteredList.addAll(restaurantList);
 
         // Initialize the adapter
