@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity
             {
                 if(mAuth.getCurrentUser() != null|| LoginUser())
                 {
-                    SwitchToRegistrationActivity();
+                    SwitchToMainActivity();
                 }
             }
         });
@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                ResetPassword();
+                SwitchToResetPasswordActivity();
             }
         });
 
@@ -111,32 +111,6 @@ public class LoginActivity extends AppCompatActivity
         return isSuccessful;
     }
 
-    private void ResetPassword()
-    {
-        String email = emailEditText.getText().toString().trim();
-
-        if (TextUtils.isEmpty(email))
-        {
-            emailEditText.setError("Email is required");
-            return;
-        }
-
-        mAuth.sendPasswordResetEmail(email)
-            .addOnCompleteListener(new OnCompleteListener<Void>()
-            {
-                @Override
-                public void onComplete(@NonNull Task<Void> task)
-                {
-                    if (task.isSuccessful())
-                    {
-                        Toast.makeText(LoginActivity.this, "Password reset email sent", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Error in sending password reset email", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-    }
-
     private void SwitchToRegistrationActivity()
     {
         Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
@@ -146,6 +120,12 @@ public class LoginActivity extends AppCompatActivity
     private void SwitchToMainActivity()
     {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void SwitchToResetPasswordActivity()
+    {
+        Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
         startActivity(intent);
     }
 
