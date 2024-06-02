@@ -29,6 +29,6 @@
         tools:layout="@layout/fragment_restaurant_detail" >
         <argument
             android:name="restaurant"
-            app:argType="com.example.stouz.Restaurant" />
+            app:argType="com.example.stouz.models.Restaurant" />
     </fragment>
 </navigation>

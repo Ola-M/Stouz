@@ -1,27 +1,38 @@
-package com.example.stouz;
+package com.example.stouz.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Restaurant implements Serializable {
+    private String id;
     private String name;
     private String openingHours;
-    private double rating;
+    private double avgRating;
     private String imageUrl;
     private double latitude;
     private double longitude;
     private float distance; // Distance to the restaurant
+    private List<Comment> commentList;
+    private RestaurantMenu menu;
+    private List<String> userFavorites;
 
-    public Restaurant(String name, String openingHours, double rating, String imageUrl, double latitude, double longitude) {
+    public Restaurant(){}
+    public Restaurant(String id, String name, String openingHours, double avgRating, String imageUrl, double latitude, double longitude, List<Comment> commentList, RestaurantMenu menu, List<String> userFavorites) {
+        this.id = id;
         this.name = name;
         this.openingHours = openingHours;
-        this.rating = rating;
+        this.avgRating = avgRating;
         this.imageUrl = imageUrl;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.commentList = commentList;
+        this.menu = menu;
+        this.userFavorites = userFavorites;
     }
 
     // Getters and Setters
 
+    public String getId() {return id;}
     public String getName() {
         return name;
     }
@@ -30,8 +41,8 @@ public class Restaurant implements Serializable {
         return openingHours;
     }
 
-    public double getRating() {
-        return rating;
+    public double getAvgRating() {
+        return avgRating;
     }
 
     public String getImageUrl() {
@@ -49,11 +60,17 @@ public class Restaurant implements Serializable {
     public float getDistance() {
         return distance;
     }
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+    public RestaurantMenu getMenu() {return menu;}
+    public List<String> getUserFavorites() {return userFavorites;}
+
 
     public void setDistance(float distance) {
         this.distance = distance;
     }
-
+    public void setId (String id) {this.id = id;}
     public void setName(String name) {
         this.name = name;
     }
@@ -62,8 +79,8 @@ public class Restaurant implements Serializable {
         this.openingHours = openingHours;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
 
     public void setImageUrl(String imageUrl) {
@@ -77,4 +94,9 @@ public class Restaurant implements Serializable {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+    public void setCommentList(Comment comment) {
+         this.commentList.add(comment);
+    }
+    public void setMenu(RestaurantMenu menu){this.menu = menu;}
+    public void setUserFavorites(String userFavorite) {this.userFavorites.add(userFavorite);}
 }

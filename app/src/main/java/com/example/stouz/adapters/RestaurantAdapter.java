@@ -1,4 +1,4 @@
-package com.example.stouz;
+package com.example.stouz.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,6 +14,9 @@ import androidx.core.content.ContextCompat;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.example.stouz.R;
+import com.example.stouz.models.Restaurant;
+
 import java.util.List;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
@@ -38,7 +41,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         Restaurant restaurant = restaurantList.get(position);
         holder.textViewName.setText(restaurant.getName());
         holder.textViewHours.setText(restaurant.getOpeningHours());
-        holder.textViewRating.setText(String.valueOf(restaurant.getRating()));
+        holder.textViewRating.setText(String.valueOf(restaurant.getAvgRating()));
 
         // Calculate and display distance
         float distance = restaurant.getDistance();
@@ -49,7 +52,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         }
 
         // Set rating color based on value
-        double rating = restaurant.getRating();
+        double rating = restaurant.getAvgRating();
         if (rating >= 4.0) {
             holder.textViewRating.setTextColor(ContextCompat.getColor(context, R.color.green));
         } else if (rating >= 3.0) {
