@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.stouz.R;
 import com.example.stouz.models.Dish;
+import com.example.stouz.models.DishCategory;
 import com.example.stouz.models.Restaurant;
 import com.example.stouz.models.RestaurantMenu;
 import com.example.stouz.adapters.RestaurantMenuAdapter;
@@ -82,7 +83,9 @@ public class RestaurantDetailFragment extends Fragment implements OnMapReadyCall
         }
 
         RestaurantMenu restaurantMenu = restaurant.getMenu();
-        menuList = restaurantMenu.getDishes();
+        List<DishCategory> cagories = restaurantMenu.getCategories();
+
+//        menuList = restaurantMenu.getCategories().getDishes();
         menuAdapter = new RestaurantMenuAdapter(getContext(), menuList);
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         menuRecyclerView.setAdapter(menuAdapter);

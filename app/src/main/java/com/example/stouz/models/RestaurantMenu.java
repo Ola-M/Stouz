@@ -9,15 +9,15 @@ public class RestaurantMenu implements Serializable {
     private String name;
     private String description;
     private String imageUrl;
-    private List<Dish> dishes;
+    private List<DishCategory> categories;
 
     public RestaurantMenu() {}
-    public RestaurantMenu(String id, String name, String description, String imageUrl, List<Dish> dishes) {
+    public RestaurantMenu(String id, String name, String description, String imageUrl, List<DishCategory> categories) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
-        this.dishes = dishes;
+        this.categories = categories;
     }
 
     // Getters
@@ -33,7 +33,14 @@ public class RestaurantMenu implements Serializable {
     public String getImageUrl() {
         return imageUrl;
     }
-    public List<Dish> getDishes() {return dishes;}
+
+    public List<DishCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<DishCategory> categories) {
+        this.categories = categories;
+    }
 
     // Setters
     public void setId(String id) {this.id = id;}
@@ -48,5 +55,4 @@ public class RestaurantMenu implements Serializable {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    public void setDishes(Dish dish) {this.dishes.add(dish);}
 }

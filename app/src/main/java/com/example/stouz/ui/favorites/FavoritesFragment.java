@@ -26,8 +26,6 @@ public class FavoritesFragment extends Fragment {
     private RestaurantAdapter restaurantAdapter;
     private List<Restaurant> restaurantList;
     private List<Restaurant> filteredList;
-    private FirebaseAuth mAuth;
-    private FirebaseUser dupa;
 
     @Nullable
     @Override
@@ -43,7 +41,6 @@ public class FavoritesFragment extends Fragment {
 
         restaurantAdapter = new RestaurantAdapter(getContext(), filteredList);
         recyclerView.setAdapter(restaurantAdapter);
-        dupa = mAuth.getCurrentUser();
         fetchFavoriteRestaurants();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -81,7 +78,7 @@ public class FavoritesFragment extends Fragment {
             public void DataIsLoaded(List<Restaurant> restaurants) {
                 restaurantList.clear();
                 for (Restaurant restaurant : restaurants) {
-                    if (restaurant.getUserFavorites() != null && restaurant.getUserFavorites().contains( "dupa")) {
+                    if (restaurant.getUserFavorites() != null && restaurant.getUserFavorites().contains(FirebaseAuth.getInstance().getCurrentUser().getEmail())) {
                         restaurantList.add(restaurant);
                     }
                 }
