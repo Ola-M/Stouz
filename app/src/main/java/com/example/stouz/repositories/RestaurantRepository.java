@@ -41,6 +41,8 @@ public class RestaurantRepository {
                     Restaurant restaurant = gson.fromJson(restaurantJson, restaurantType);
 
                     if (restaurant != null) {
+                        if(restaurant.getCommentList() == null)
+                            restaurant.setCommentList(new ArrayList<>());
                         restaurant.setId(itemSnapshot.getKey());
                         restaurantList.add(restaurant);
                     }
@@ -54,6 +56,11 @@ public class RestaurantRepository {
                 Log.w(TAG, "loadPost:onCancelled", error.toException());
             }
         });
+    }
+
+    public void increaseViewsCount(Restaurant restaurant){
+        int views = restaurant.getViews() + 1;
+        databaseReference.child(restaurant.getId()).child("views").setValue(views);
     }
 
     public interface DataStatus {

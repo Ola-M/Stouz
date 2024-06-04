@@ -57,5 +57,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:18.0.0")
     implementation("com.google.android.gms:play-services-ads:23.1.0")
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation("androidx.activity:activity:1.2.0-alpha05")
+    implementation("androidx.fragment:fragment:1.3.0-alpha05")
+    implementation("com.google.firebase:firebase-storage:19.2.1")
 
 }

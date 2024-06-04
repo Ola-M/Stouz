@@ -3,6 +3,7 @@ package com.example.stouz.models;
 import android.util.Log;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant implements Serializable {
@@ -17,23 +18,33 @@ public class Restaurant implements Serializable {
     private List<Comment> commentList;
     private RestaurantMenu menu;
     private List<String> userFavorites;
+    private int views;
 
     public Restaurant() {}
 
-    public Restaurant(String id, String name, String openingHours, float avgRating, String imageUrl, float latitude, float longitude, List<Comment> commentList, RestaurantMenu menu, List<String> userFavorites) {
+    public Restaurant(String id, String name, String openingHours, String imageUrl, float latitude, float longitude, List<Comment> commentList, RestaurantMenu menu, List<String> userFavorites, int views) {
         this.id = id;
         this.name = name;
         this.openingHours = openingHours;
-        this.avgRating = avgRating;
         this.imageUrl = imageUrl;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.commentList = commentList;
+        this.commentList = (commentList != null) ? commentList : new ArrayList<>();
+
         this.menu = menu;
         this.userFavorites = userFavorites;
+        this.views = views;
     }
 
     // Getters and Setters
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
+    }
 
     public String getId() {
         return id;
@@ -48,7 +59,15 @@ public class Restaurant implements Serializable {
     }
 
     public double getAvgRating() {
-        return avgRating;
+        if(this.getCommentList().size() == 0)
+            return 0;
+
+        int temp = 0;
+        for (Comment comment:this.getCommentList()) {
+            temp += comment.getRate();
+        }
+
+        return temp / this.getCommentList().size();
     }
 
     public String getImageUrl() {

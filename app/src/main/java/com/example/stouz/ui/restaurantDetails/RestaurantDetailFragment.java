@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -16,11 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.stouz.R;
+import com.example.stouz.adapters.CommentAdapter;
+import com.example.stouz.models.Comment;
 import com.example.stouz.models.Dish;
 import com.example.stouz.models.DishCategory;
 import com.example.stouz.models.Restaurant;
 import com.example.stouz.models.RestaurantMenu;
 import com.example.stouz.adapters.RestaurantMenuAdapter;
+import com.example.stouz.repositories.RestaurantRepository;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,6 +33,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,11 +47,14 @@ public class RestaurantDetailFragment extends Fragment implements OnMapReadyCall
     private RatingBar ratingBar;
     private RecyclerView menuRecyclerView;
     private RestaurantMenuAdapter menuAdapter;
+    private RecyclerView commentsRecyclerView;
+
     private GoogleMap mMap;
     private LatLng restaurantLocation;
     private AdView adView;
     private Restaurant restaurant;
-    private List<Dish> menuList;
+    private Button addCommentButton;
+    private RestaurantRepository restaurantRepository;
 
 
     @Nullable
@@ -56,13 +65,15 @@ public class RestaurantDetailFragment extends Fragment implements OnMapReadyCall
         adView = root.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
-
+        restaurantRepository = new RestaurantRepository();
         imageView = root.findViewById(R.id.imageView);
         textViewName = root.findViewById(R.id.textViewName);
         textViewHours = root.findViewById(R.id.textViewHours);
         ratingBar = root.findViewById(R.id.ratingBar);
         menuRecyclerView = root.findViewById(R.id.menuRecyclerView);
-
+        commentsRecyclerView = root.findViewById(R.id.commentsRecyclerView);
+        addCommentButton = root.findViewById(R.id.addCommentButton);
+        addCommentButton.setOnClickListener(v -> showAddCommentDialog());
         // Get the restaurant data from arguments
         Bundle args = getArguments();
         if (args != null) {
@@ -79,16 +90,26 @@ public class RestaurantDetailFragment extends Fragment implements OnMapReadyCall
                 // Set the restaurant location
                 restaurantLocation = new LatLng(restaurant.getLatitude(), restaurant.getLongitude());
                 Log.d(TAG, "Restaurant Location: " + restaurantLocation.latitude + ", " + restaurantLocation.longitude);
+                restaurantRepository.increaseViewsCount(restaurant);
+
             }
         }
+
 
         RestaurantMenu restaurantMenu = restaurant.getMenu();
         List<DishCategory> cagories = restaurantMenu.getCategories();
 
 //        menuList = restaurantMenu.getCategories().getDishes();
-        menuAdapter = new RestaurantMenuAdapter(getContext(), menuList);
+        menuAdapter = new RestaurantMenuAdapter(getContext(), cagories);
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         menuRecyclerView.setAdapter(menuAdapter);
+
+        List<Comment> commentList = restaurant.getCommentList();
+
+        // Set up the comments RecyclerView
+        CommentAdapter commentAdapter = new CommentAdapter(getContext(), commentList);
+        commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        commentsRecyclerView.setAdapter(commentAdapter);
 
         // Initialize the map
         SupportMapFragment mapFragment = new SupportMapFragment();
@@ -122,5 +143,17 @@ public class RestaurantDetailFragment extends Fragment implements OnMapReadyCall
             adView.destroy();
         }
         super.onDestroyView();
+    }
+
+    private void showAddCommentDialog() {
+        AddCommentDialogFragment dialog = new AddCommentDialogFragment();
+        Bundle args = new Bundle();
+        args.putString("restaurantId", restaurant.getId());
+        args.putSerializable("commentList", (Serializable) restaurant.getCommentList()); // Cast to Serializable
+
+        // Set the arguments on the dialog
+        dialog.setArguments(args);
+
+        dialog.show(getChildFragmentManager(), "AddCommentDialog");
     }
 }
