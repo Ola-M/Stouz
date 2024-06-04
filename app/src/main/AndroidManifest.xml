@@ -34,7 +34,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="TAJNE"/>
+            android:value="AIzaSyDkdLaagk1Q8aJ2gP1ymhRMvLSnzC7haVI"/>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

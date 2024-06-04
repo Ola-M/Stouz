@@ -1,7 +1,6 @@
 package com.example.stouz.ui.favorites;
 
 import android.os.Bundle;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -12,8 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.appcompat.widget.SearchView;
 import com.example.stouz.R;
-import com.example.stouz.Restaurant;
-import com.example.stouz.RestaurantAdapter;
+import com.example.stouz.adapters.RestaurantAdapter;
+import com.example.stouz.models.Restaurant;
+import com.example.stouz.repositories.RestaurantRepository;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,8 @@ public class FavoritesFragment extends Fragment {
     private RestaurantAdapter restaurantAdapter;
     private List<Restaurant> restaurantList;
     private List<Restaurant> filteredList;
+    private FirebaseAuth mAuth;
+    private FirebaseUser dupa;
 
     @Nullable
     @Override
@@ -37,15 +41,10 @@ public class FavoritesFragment extends Fragment {
         restaurantList = new ArrayList<>();
         filteredList = new ArrayList<>();
 
-        // Add dummy data for favorites
-        restaurantList.add(new Restaurant("Restaurant 1", "9 AM - 9 PM", 4.5, "https://example.com/image1.jpg", 40.748817, -73.985428)); // Example coordinates for NYC
-        restaurantList.add(new Restaurant("Restaurant 2", "10 AM - 8 PM", 4.0, "https://example.com/image2.jpg", 37.774929, -122.419416)); // Example coordinates for San Francisco
-        restaurantList.add(new Restaurant("Restaurant 3", "11 AM - 10 PM", 3.5, "https://example.com/image3.jpg", 34.052235, -118.243683));
-        filteredList.addAll(restaurantList);
-
-        // Initialize the adapter
         restaurantAdapter = new RestaurantAdapter(getContext(), filteredList);
         recyclerView.setAdapter(restaurantAdapter);
+        dupa = mAuth.getCurrentUser();
+        fetchFavoriteRestaurants();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -64,6 +63,9 @@ public class FavoritesFragment extends Fragment {
     }
 
     private void filter(String text) {
+        if (restaurantAdapter == null) {
+            return;
+        }
         filteredList.clear();
         for (Restaurant restaurant : restaurantList) {
             if (restaurant.getName().toLowerCase().contains(text.toLowerCase())) {
@@ -71,5 +73,22 @@ public class FavoritesFragment extends Fragment {
             }
         }
         restaurantAdapter.filterList(filteredList);
+    }
+
+    private void fetchFavoriteRestaurants() {
+        new RestaurantRepository().getRestaurantsList(new RestaurantRepository.DataStatus() {
+            @Override
+            public void DataIsLoaded(List<Restaurant> restaurants) {
+                restaurantList.clear();
+                for (Restaurant restaurant : restaurants) {
+                    if (restaurant.getUserFavorites() != null && restaurant.getUserFavorites().contains( "dupa")) {
+                        restaurantList.add(restaurant);
+                    }
+                }
+                filteredList.clear();
+                filteredList.addAll(restaurantList);
+                restaurantAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

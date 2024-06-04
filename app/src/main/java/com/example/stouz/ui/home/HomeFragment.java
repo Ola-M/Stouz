@@ -19,10 +19,10 @@ import androidx.appcompat.widget.SearchView;
 import com.example.stouz.R;
 import com.example.stouz.adapters.RestaurantAdapter;
 import com.example.stouz.models.Restaurant;
+import com.example.stouz.repositories.RestaurantRepository;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -48,12 +48,6 @@ public class HomeFragment extends Fragment {
 
         restaurantList = new ArrayList<>();
         filteredList = new ArrayList<>();
-
-        // Add dummy data
-        restaurantList.add(new Restaurant("Restaurant 1", "9 AM - 9 PM", 4.5, "https://example.com/image1.jpg", 50.68743, 16.37173)); // Example coordinates
-        restaurantList.add(new Restaurant("Restaurant 2", "10 AM - 8 PM", 4.0, "https://example.com/image2.jpg", 37.774929, -122.419416)); // Example coordinates
-        restaurantList.add(new Restaurant("Restaurant 3", "11 AM - 10 PM", 3.5, "https://example.com/image3.jpg", 34.052235, -118.243683)); // Example coordinates
-        filteredList.addAll(restaurantList);
 
         restaurantAdapter = new RestaurantAdapter(getContext(), filteredList);
         recyclerView.setAdapter(restaurantAdapter);
@@ -102,11 +96,23 @@ public class HomeFragment extends Fragment {
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
-                                sortRestaurantsByProximity(location);
+                                fetchRestaurants(location);
                             }
                         }
                     });
         }
+    }
+
+    private void fetchRestaurants(Location userLocation) {
+        new RestaurantRepository().getRestaurantsList(new RestaurantRepository.DataStatus() {
+            @Override
+            public void DataIsLoaded(List<Restaurant> restaurants) {
+                restaurantList.clear();
+                restaurantList.addAll(restaurants);
+                sortRestaurantsByProximity(userLocation);
+                restaurantAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void sortRestaurantsByProximity(Location userLocation) {

@@ -56,5 +56,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:17.0.1")
     implementation("com.google.android.gms:play-services-location:18.0.0")
     implementation("com.google.android.gms:play-services-ads:23.1.0")
+    implementation("com.google.code.gson:gson:2.10.1")
 
 }

@@ -16,9 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.stouz.R;
-import com.example.stouz.Restaurant;
-import com.example.stouz.RestaurantMenuItem;
-import com.example.stouz.RestaurantMenuAdapter;
+import com.example.stouz.models.Dish;
+import com.example.stouz.models.Restaurant;
+import com.example.stouz.models.RestaurantMenu;
+import com.example.stouz.adapters.RestaurantMenuAdapter;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,10 +40,11 @@ public class RestaurantDetailFragment extends Fragment implements OnMapReadyCall
     private RatingBar ratingBar;
     private RecyclerView menuRecyclerView;
     private RestaurantMenuAdapter menuAdapter;
-    private List<RestaurantMenuItem> menuList;
     private GoogleMap mMap;
     private LatLng restaurantLocation;
     private AdView adView;
+    private Restaurant restaurant;
+    private List<Dish> menuList;
 
 
     @Nullable
@@ -63,11 +65,11 @@ public class RestaurantDetailFragment extends Fragment implements OnMapReadyCall
         // Get the restaurant data from arguments
         Bundle args = getArguments();
         if (args != null) {
-            Restaurant restaurant = (Restaurant) args.getSerializable("restaurant");
+            restaurant = (Restaurant) args.getSerializable("restaurant");
             if (restaurant != null) {
                 textViewName.setText(restaurant.getName());
                 textViewHours.setText(getString(R.string.opening_hours, restaurant.getOpeningHours()));
-                ratingBar.setRating((float) restaurant.getRating());
+                ratingBar.setRating((float) restaurant.getAvgRating());
 
                 Glide.with(getContext())
                         .load(restaurant.getImageUrl())
@@ -79,12 +81,8 @@ public class RestaurantDetailFragment extends Fragment implements OnMapReadyCall
             }
         }
 
-        menuList = new ArrayList<>();
-        // Add dummy data for menu items
-        menuList.add(new RestaurantMenuItem("Dish 1", "Description 1", "https://example.com/dish1.jpg"));
-        menuList.add(new RestaurantMenuItem("Dish 2", "Description 2", "https://example.com/dish2.jpg"));
-        menuList.add(new RestaurantMenuItem("Dish 3", "Description 3", "https://example.com/dish3.jpg"));
-
+        RestaurantMenu restaurantMenu = restaurant.getMenu();
+        menuList = restaurantMenu.getDishes();
         menuAdapter = new RestaurantMenuAdapter(getContext(), menuList);
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         menuRecyclerView.setAdapter(menuAdapter);

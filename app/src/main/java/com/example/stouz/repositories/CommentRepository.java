@@ -6,15 +6,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommentRepository {
     private static final String TAG = "CommentRepository";
-    private DatabaseReference databaseReference = FirebaseDatabase.getInstance("DATABASE_NAME.europe-west1.firebasedatabase.app").getReference();
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://stouz-d25dc-default-rtdb.europe-west1.firebasedatabase.app").getReference();
     private FirebaseAuth mAuth;
 
 
-    public void addComment(String restaurantId, List<Comment> comments, Comment comment){
+    public void addComment(String restaurantId, ArrayList<Comment> comments, Comment comment){
         comment.setUser(mAuth.getCurrentUser().getEmail());
         comments.add(comment);
         databaseReference.child("restaurant").child(restaurantId).child("commentList").setValue(comments);

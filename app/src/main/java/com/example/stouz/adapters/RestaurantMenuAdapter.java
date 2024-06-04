@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.stouz.R;
+import com.example.stouz.models.Dish;
 import com.example.stouz.models.RestaurantMenu;
 
 import java.util.List;
@@ -17,9 +18,9 @@ import java.util.List;
 public class RestaurantMenuAdapter extends RecyclerView.Adapter<RestaurantMenuAdapter.MenuViewHolder> {
 
     private Context context;
-    private List<RestaurantMenu> menuList;
+    private List<Dish> menuList;
 
-    public RestaurantMenuAdapter(Context context, List<RestaurantMenu> menuList) {
+    public RestaurantMenuAdapter(Context context, List<Dish> menuList) {
         this.context = context;
         this.menuList = menuList;
     }
@@ -33,7 +34,7 @@ public class RestaurantMenuAdapter extends RecyclerView.Adapter<RestaurantMenuAd
 
     @Override
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
-        RestaurantMenu menuItem = menuList.get(position);
+        Dish menuItem = menuList.get(position);
         holder.textViewName.setText(menuItem.getName());
         holder.textViewDescription.setText(menuItem.getDescription());
 
