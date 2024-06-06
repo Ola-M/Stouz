@@ -15,14 +15,12 @@ public class CommentRepository {
     private FirebaseAuth mAuth;
 
 
-    public void addComment(String restaurantId, ArrayList<Comment> comments, Comment comment){
-        comment.setUser(mAuth.getCurrentUser().getEmail());
+    public void addComment(String restaurantId, List<Comment> comments, Comment comment){
         comments.add(comment);
-        databaseReference.child("restaurant").child(restaurantId).child("commentList").setValue(comments);
+        databaseReference.child("restaurants").child(restaurantId).child("commentList").setValue(comments);
     }
 
     public void addComment(String restaurantId, Comment comment){
-        comment.setUser(mAuth.getCurrentUser().getEmail());;
-        databaseReference.child("restaurant").child(restaurantId).child("commentList").setValue(comment);
+        databaseReference.child("restaurants").child(restaurantId).child("commentList").setValue(comment);
     }
 }

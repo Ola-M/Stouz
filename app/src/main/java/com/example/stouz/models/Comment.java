@@ -6,17 +6,15 @@ public class Comment {
     private String description;
     private int rate;
     private String imageUrl;
-    private double price;
 
     public Comment() {}
 
-    public Comment(String id, String user, String description, int rate, String imageUrl, double price) {
+    public Comment(String id, String user, String description, int rate, String imageUrl) {
         this.id = id;
         this.user = user;
         this.description = description;
         this.rate = rate;
         this.imageUrl = imageUrl;
-        this.price = price;
     }
 
     public String getId() {
@@ -39,10 +37,6 @@ public class Comment {
         return imageUrl;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
@@ -61,9 +55,5 @@ public class Comment {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 }

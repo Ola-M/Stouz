@@ -28,5 +28,7 @@
     <string name="opening_hours">Opening Hours: %1$s</string>
     <string name="title_promotions">Promotions</string>
     <string name="title_restaurant_detail">Restaurant Detail</string>
+    <string name="opinions">Opinions</string>
+    <string name="add_comment">Add new comment</string>
 
 </resources>

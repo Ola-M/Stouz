@@ -4,16 +4,16 @@ public class Dish {
     private String id;
     private String name;
     private String description;
-    private String sectionName;
     private String imageUrl;
+    private double price;
 
     public Dish(){}
-    public Dish(String id, String name, String description, String sectionName, String imageUrl){
+    public Dish(String id, String name, String description, String imageUrl, double price){
         this.id = id;
         this.name = name;
         this.description = description;
-        this.sectionName = sectionName;
         this.imageUrl = imageUrl;
+        this.price = price;
     }
 
     public String getId() {return id;}
@@ -25,7 +25,6 @@ public class Dish {
         return description;
     }
 
-    public String getSectionName() {return sectionName;}
     public String getImageUrl() { return imageUrl;}
 
     public void setId(String id) {this.id = id;}
@@ -37,12 +36,15 @@ public class Dish {
         this.description = description;
     }
 
-    public void setSectionName(String sectionName) {
-        this.sectionName = sectionName;
-    }
-
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
 

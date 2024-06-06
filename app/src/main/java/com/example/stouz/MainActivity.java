@@ -28,6 +28,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.example.stouz.databinding.ActivityMainBinding;
 import com.example.stouz.ui.promotions.PromotionsFragment;
+import com.example.stouz.models.Comment;
+import com.example.stouz.ui.restaurantDetails.AddCommentDialogFragment;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -39,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddCommentDialogFragment.AddCommentListener {
 
     private ActivityMainBinding binding;
     private SharedPreferences sharedPreferences;
@@ -197,5 +199,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         return NavigationUI.navigateUp(navController, new AppBarConfiguration.Builder(navController.getGraph()).build())
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onCommentAdded(Comment comment) {
+
     }
 }

@@ -4,59 +4,77 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ImageView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.example.stouz.R;
-import com.example.stouz.models.Dish;
-import com.example.stouz.models.RestaurantMenu;
-
+import com.example.stouz.models.DishCategory;
+import com.google.android.material.card.MaterialCardView;
 import java.util.List;
 
-public class RestaurantMenuAdapter extends RecyclerView.Adapter<RestaurantMenuAdapter.MenuViewHolder> {
+public class RestaurantMenuAdapter extends RecyclerView.Adapter<RestaurantMenuAdapter.CategoryViewHolder> {
 
     private Context context;
-    private List<Dish> menuList;
+    private List<DishCategory> categories;
 
-    public RestaurantMenuAdapter(Context context, List<Dish> menuList) {
+    public RestaurantMenuAdapter(Context context, List<DishCategory> categories) {
         this.context = context;
-        this.menuList = menuList;
+        this.categories = categories;
     }
 
     @NonNull
     @Override
-    public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_menu, parent, false);
-        return new MenuViewHolder(view);
+    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.category_item, parent, false);
+        return new CategoryViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
-        Dish menuItem = menuList.get(position);
-        holder.textViewName.setText(menuItem.getName());
-        holder.textViewDescription.setText(menuItem.getDescription());
+    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
+        DishCategory category = categories.get(position);
+
+        holder.categoryNameTextView.setText(category.getName());
+
+        // Create and set up the nested RecyclerView for dishes
+        holder.dishesRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        DishAdapter dishAdapter = new DishAdapter(context, category.getDishes());
+        holder.dishesRecyclerView.setAdapter(dishAdapter);
 
         Glide.with(context)
-                .load(menuItem.getImageUrl())
-                .into(holder.imageView);
+                .load(category.getImageUrl())
+                .into(holder.categoryImageView);
+
+        // Expand/collapse functionality (if desired)
+        holder.cardView.setOnClickListener(v ->
+                holder.dishesRecyclerView.setVisibility(
+                        holder.dishesRecyclerView.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE
+                )
+        );
     }
 
     @Override
     public int getItemCount() {
-        return menuList.size();
+        return categories.size();
     }
 
-    static class MenuViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
-        TextView textViewName, textViewDescription;
+    // ViewHolder for Category items
+    static class CategoryViewHolder extends RecyclerView.ViewHolder {
+        MaterialCardView cardView;
+        TextView categoryNameTextView;
+        RecyclerView dishesRecyclerView;
+        ImageView categoryImageView;
 
-        public MenuViewHolder(@NonNull View itemView) {
+
+        CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
-            textViewName = itemView.findViewById(R.id.textViewName);
-            textViewDescription = itemView.findViewById(R.id.textViewDescription);
+            cardView = itemView.findViewById(R.id.categoryCardView);
+            categoryNameTextView = itemView.findViewById(R.id.categoryNameTextView);
+            dishesRecyclerView = itemView.findViewById(R.id.dishesRecyclerView);
+            categoryImageView = itemView.findViewById(R.id.categoryImageView); // Initialize it
         }
     }
 }
