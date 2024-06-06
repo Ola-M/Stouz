@@ -103,7 +103,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         // Set the card click listener to navigate to the detail fragment
         holder.itemView.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putSerializable("restaurant", restaurant);
+            bundle.putParcelable("restaurant", restaurant);
             Navigation.findNavController(holder.itemView).navigate(R.id.navigation_restaurant_detail, bundle);
         });
     }

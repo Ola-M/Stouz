@@ -77,7 +77,7 @@ public class RestaurantDetailFragment extends Fragment implements OnMapReadyCall
         // Get the restaurant data from arguments
         Bundle args = getArguments();
         if (args != null) {
-            restaurant = (Restaurant) args.getSerializable("restaurant");
+            restaurant = (Restaurant) args.getParcelable("restaurant");
             if (restaurant != null) {
                 textViewName.setText(restaurant.getName());
                 textViewHours.setText(getString(R.string.opening_hours, restaurant.getOpeningHours()));
