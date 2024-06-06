@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import com.example.stouz.R;
 import com.example.stouz.ShakeDetector;
 
@@ -46,7 +48,6 @@ public class PromotionsFragment extends Fragment {
                 promoCodeTextView.setText("PROMO2021"); // Example promo code
             }
         });
-
         return root;
     }
 

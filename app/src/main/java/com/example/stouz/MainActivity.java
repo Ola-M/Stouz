@@ -5,10 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +27,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.example.stouz.databinding.ActivityMainBinding;
+import com.example.stouz.ui.promotions.PromotionsFragment;
 import com.example.stouz.models.Comment;
 import com.example.stouz.ui.restaurantDetails.AddCommentDialogFragment;
 import com.google.android.gms.ads.AdRequest;
@@ -28,6 +35,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +47,25 @@ public class MainActivity extends AppCompatActivity implements AddCommentDialogF
     private SharedPreferences sharedPreferences;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
 
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+        registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>(){
+            @Override
+            public  void onActivityResult(Boolean o){
+                if(o){
+                    Toast.makeText(MainActivity.this, "Testowe powiadomienie", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FirebaseApp.initializeApp(MainActivity.this);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         boolean isDarkTheme = sharedPreferences.getBoolean("isDarkTheme", false);
         if (isDarkTheme) {
