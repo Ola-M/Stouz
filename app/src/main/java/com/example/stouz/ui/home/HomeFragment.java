@@ -33,9 +33,9 @@ public class HomeFragment extends Fragment {
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private RecyclerView recyclerView;
     private RestaurantAdapter restaurantAdapter;
-    private List<Restaurant> restaurantList;
-    private List<Restaurant> filteredList;
-    private FusedLocationProviderClient fusedLocationClient;
+    public List<Restaurant> restaurantList;
+    public List<Restaurant> filteredList;
+    public FusedLocationProviderClient fusedLocationClient;
 
     @Nullable
     @Override
@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    private void filter(String text) {
+    public void filter(String text) {
         if (restaurantAdapter == null) {
             return;
         }
@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void fetchRestaurants(Location userLocation) {
+    public void fetchRestaurants(Location userLocation) {
         new RestaurantRepository().getRestaurantsList(new RestaurantRepository.DataStatus() {
             @Override
             public void DataIsLoaded(List<Restaurant> restaurants) {
@@ -115,7 +115,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void sortRestaurantsByProximity(Location userLocation) {
+    public void sortRestaurantsByProximity(Location userLocation) {
         for (Restaurant restaurant : restaurantList) {
             float[] results = new float[1];
             Location.distanceBetween(userLocation.getLatitude(), userLocation.getLongitude(), restaurant.getLatitude(), restaurant.getLongitude(), results);

@@ -42,15 +42,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.commentDescriptionTextView.setText(comment.getDescription());
         holder.commentRatingBar.setRating(comment.getRate());
 
-        // Load comment image using Glide (if available)
         String imageUrl = comment.getImageUrl();
         if (imageUrl != null && !imageUrl.isEmpty()) {
-            holder.commentImageView.setVisibility(View.VISIBLE); // Show ImageView
+            holder.commentImageView.setVisibility(View.VISIBLE);
             Glide.with(context)
-                    .load(imageUrl)// Error image (if you have one)
+                    .load(imageUrl)
                     .into(holder.commentImageView);
         } else {
-            holder.commentImageView.setVisibility(View.GONE); // Hide ImageView
+            holder.commentImageView.setVisibility(View.GONE);
         }
     }
 

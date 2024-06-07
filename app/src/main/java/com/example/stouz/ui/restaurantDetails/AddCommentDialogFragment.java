@@ -155,7 +155,6 @@ public class AddCommentDialogFragment extends DialogFragment {
                 Log.d("AddCommentDialog", "Camera is available, launching camera intent");
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                // List all activities that can handle this intent
                 PackageManager packageManager = requireActivity().getPackageManager();
                 List<ResolveInfo> activities = packageManager.queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
                 Log.d("AddCommentDialog", "Number of activities that can handle camera intent: " + activities.size());

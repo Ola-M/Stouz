@@ -10,7 +10,6 @@ public class Comment implements Parcelable {
     private int rate;
     private String imageUrl;
 
-    // Constructor
     public Comment(String id, String user, String description, int rate, String imageUrl) {
         this.id = id;
         this.user = user;
@@ -19,10 +18,6 @@ public class Comment implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
-    // Getters and setters
-    // ...
-
-    // Parcelable implementation
     protected Comment(Parcel in) {
         id = in.readString();
         user = in.readString();

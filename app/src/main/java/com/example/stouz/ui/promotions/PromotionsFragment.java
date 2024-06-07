@@ -30,7 +30,7 @@ public class PromotionsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_promotions, container, false);
-
+        progress = 0;
         progressBar = root.findViewById(R.id.progressBar);
         promoCodeTextView = root.findViewById(R.id.promoCodeTextView);
 
@@ -38,14 +38,13 @@ public class PromotionsFragment extends Fragment {
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         shakeDetector = new ShakeDetector();
         shakeDetector.setOnShakeListener(count -> {
-            // Increase progress on shake
             progress += 20; // Increase progress faster
             progressBar.setProgress(progress);
 
             if (progress >= 100) {
                 progressBar.setVisibility(View.GONE);
                 promoCodeTextView.setVisibility(View.VISIBLE);
-                promoCodeTextView.setText("PROMO2021"); // Example promo code
+                promoCodeTextView.setText("Promocyjny super kod");
             }
         });
         return root;

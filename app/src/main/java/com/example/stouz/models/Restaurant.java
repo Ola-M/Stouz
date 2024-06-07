@@ -18,7 +18,6 @@ public class Restaurant implements Parcelable {
     private List<String> userFavorites;
     private int views;
 
-    // Constructor
     public Restaurant(String id, String name, String openingHours, double avgRating, String imageUrl, double latitude, double longitude, float distance, List<Comment> commentList, RestaurantMenu menu, List<String> userFavorites, int views) {
         this.id = id;
         this.name = name;
@@ -34,10 +33,6 @@ public class Restaurant implements Parcelable {
         this.views = views;
     }
 
-    // Getters and setters
-    // ...
-
-    // Parcelable implementation
     protected Restaurant(Parcel in) {
         id = in.readString();
         name = in.readString();

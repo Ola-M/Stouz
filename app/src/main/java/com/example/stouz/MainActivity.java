@@ -36,6 +36,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +84,10 @@ public class MainActivity extends AppCompatActivity implements AddCommentDialogF
         setSupportActionBar(toolbar);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            navView.getMenu().removeItem(R.id.navigation_favorites);
+        }
+
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_favorites, R.id.navigation_promotions)
                 .build();
@@ -90,18 +95,18 @@ public class MainActivity extends AppCompatActivity implements AddCommentDialogF
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        // Load saved language preference
         loadLocale();
 
-        // Request location permissions
         requestLocationPermission();
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+
+        MenuItem loginItem = menu.findItem(R.id.action_login);
+        loginItem.setVisible(FirebaseAuth.getInstance().getCurrentUser() == null);
         return true;
     }
 
@@ -187,9 +192,6 @@ public class MainActivity extends AppCompatActivity implements AddCommentDialogF
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_LOCATION_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, proceed with map functionality if necessary
-            } else {
-                // Permission denied, handle the functionality without location access
             }
         }
     }
@@ -203,6 +205,5 @@ public class MainActivity extends AppCompatActivity implements AddCommentDialogF
 
     @Override
     public void onCommentAdded(Comment comment) {
-
     }
 }

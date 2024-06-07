@@ -12,7 +12,6 @@ public class RestaurantMenu implements Parcelable {
     private String imageUrl;
     private List<DishCategory> categories;
 
-    // Konstruktor
     public RestaurantMenu(String id, String name, String description, String imageUrl, List<DishCategory> categories) {
         this.id = id;
         this.name = name;
@@ -21,7 +20,6 @@ public class RestaurantMenu implements Parcelable {
         this.categories = categories;
     }
 
-    // Gettery i settery
     public String getId() {
         return id;
     }

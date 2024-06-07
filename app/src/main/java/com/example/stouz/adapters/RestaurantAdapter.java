@@ -43,7 +43,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         holder.textViewHours.setText(restaurant.getOpeningHours());
         holder.textViewRating.setText(String.valueOf(restaurant.getAvgRating()));
 
-        // Calculate and display distance
         float distance = restaurant.getDistance();
         if (distance > 1000) {
             holder.textViewDistance.setText(String.format("%.1f km", distance / 1000));
@@ -51,7 +50,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             holder.textViewDistance.setText(String.format("%.0f m", distance));
         }
 
-        // Set rating color based on value
         double rating = restaurant.getAvgRating();
         if (rating >= 4.0) {
             holder.textViewRating.setTextColor(ContextCompat.getColor(context, R.color.green));
@@ -61,12 +59,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             holder.textViewRating.setTextColor(ContextCompat.getColor(context, R.color.red));
         }
 
-        // Load image using Glide
         Glide.with(context)
                 .load(restaurant.getImageUrl())
                 .into(holder.imageView);
 
-        // Set favorite button click listener
         holder.buttonFavorite.setOnClickListener(v -> {
             holder.buttonFavorite.setSelected(!holder.buttonFavorite.isSelected());
             holder.buttonFavorite.setImageResource(
@@ -76,7 +72,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             );
         });
 
-        // Add stars based on the rating
         holder.ratingStars.removeAllViews();
         int fullStars = (int) rating;
         int halfStars = (rating - fullStars >= 0.5) ? 1 : 0;
@@ -90,7 +85,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
         if (halfStars > 0) {
             ImageView star = new ImageView(context);
-            star.setImageResource(android.R.drawable.star_on); // Use a half-star image if available
+            star.setImageResource(android.R.drawable.star_on);
             holder.ratingStars.addView(star);
         }
 
@@ -100,7 +95,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             holder.ratingStars.addView(star);
         }
 
-        // Set the card click listener to navigate to the detail fragment
         holder.itemView.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("restaurant", restaurant);

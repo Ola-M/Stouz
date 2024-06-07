@@ -39,7 +39,6 @@ public class RestaurantMenuAdapter extends RecyclerView.Adapter<RestaurantMenuAd
 
         holder.categoryNameTextView.setText(category.getName());
 
-        // Create and set up the nested RecyclerView for dishes
         holder.dishesRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         DishAdapter dishAdapter = new DishAdapter(context, category.getDishes());
         holder.dishesRecyclerView.setAdapter(dishAdapter);
@@ -48,7 +47,6 @@ public class RestaurantMenuAdapter extends RecyclerView.Adapter<RestaurantMenuAd
                 .load(category.getImageUrl())
                 .into(holder.categoryImageView);
 
-        // Expand/collapse functionality (if desired)
         holder.cardView.setOnClickListener(v ->
                 holder.dishesRecyclerView.setVisibility(
                         holder.dishesRecyclerView.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE
@@ -61,7 +59,6 @@ public class RestaurantMenuAdapter extends RecyclerView.Adapter<RestaurantMenuAd
         return categories.size();
     }
 
-    // ViewHolder for Category items
     static class CategoryViewHolder extends RecyclerView.ViewHolder {
         MaterialCardView cardView;
         TextView categoryNameTextView;

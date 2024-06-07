@@ -10,7 +10,6 @@ public class Dish implements Parcelable {
     private String imageUrl;
     private double price;
 
-    // Konstruktor
     public Dish() {}
 
     public Dish(String id, String name, String description, String imageUrl, double price) {
@@ -21,7 +20,6 @@ public class Dish implements Parcelable {
         this.price = price;
     }
 
-    // Gettery i settery
     public String getId() {
         return id;
     }
@@ -62,7 +60,6 @@ public class Dish implements Parcelable {
         this.price = price;
     }
 
-    // Parcelable implementation
     protected Dish(Parcel in) {
         id = in.readString();
         name = in.readString();

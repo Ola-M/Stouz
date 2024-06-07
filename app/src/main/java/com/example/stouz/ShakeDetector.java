@@ -12,7 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 public class ShakeDetector implements SensorEventListener {
 
-    private static final float SHAKE_THRESHOLD_GRAVITY = 2.0F; // Lowered threshold for more sensitivity
+    private static final float SHAKE_THRESHOLD_GRAVITY = 2.0F;
     private static final int SHAKE_SLOP_TIME_MS = 50;
     private static final int SHAKE_COUNT_RESET_TIME_MS = 300;
 
@@ -30,7 +30,6 @@ public class ShakeDetector implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Do nothing
     }
 
     @Override

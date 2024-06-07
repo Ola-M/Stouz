@@ -11,7 +11,6 @@ public class DishCategory implements Parcelable {
     private String imageUrl;
     private List<Dish> dishes;
 
-    // Konstruktor
     public DishCategory(String id, String name, String imageUrl, List<Dish> dishes) {
         this.id = id;
         this.name = name;
@@ -19,7 +18,6 @@ public class DishCategory implements Parcelable {
         this.dishes = dishes;
     }
 
-    // Gettery i settery
     public String getId() {
         return id;
     }
@@ -52,7 +50,6 @@ public class DishCategory implements Parcelable {
         this.dishes = dishes;
     }
 
-    // Parcelable implementation
     protected DishCategory(Parcel in) {
         id = in.readString();
         name = in.readString();

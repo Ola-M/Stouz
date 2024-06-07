@@ -99,19 +99,16 @@ public class RestaurantDetailFragment extends Fragment implements OnMapReadyCall
         RestaurantMenu restaurantMenu = restaurant.getMenu();
         List<DishCategory> cagories = restaurantMenu.getCategories();
 
-//        menuList = restaurantMenu.getCategories().getDishes();
         menuAdapter = new RestaurantMenuAdapter(getContext(), cagories);
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         menuRecyclerView.setAdapter(menuAdapter);
 
         List<Comment> commentList = restaurant.getCommentList();
 
-        // Set up the comments RecyclerView
         CommentAdapter commentAdapter = new CommentAdapter(getContext(), commentList);
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         commentsRecyclerView.setAdapter(commentAdapter);
 
-        // Initialize the map
         SupportMapFragment mapFragment = new SupportMapFragment();
         FragmentManager fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.map_container, mapFragment).commit();
@@ -123,13 +120,11 @@ public class RestaurantDetailFragment extends Fragment implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        // Add a marker at the restaurant location and move the camera
         if (restaurantLocation != null) {
             mMap.addMarker(new MarkerOptions().position(restaurantLocation).title("Restaurant Location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurantLocation, 15));
             Log.d(TAG, "Marker added at: " + restaurantLocation.latitude + ", " + restaurantLocation.longitude);
         } else {
-            // Add a default marker (e.g., for New York City)
             LatLng defaultLocation = new LatLng(40.7128, -74.0060);
             mMap.addMarker(new MarkerOptions().position(defaultLocation).title("Default Location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 15));
@@ -149,9 +144,8 @@ public class RestaurantDetailFragment extends Fragment implements OnMapReadyCall
         AddCommentDialogFragment dialog = new AddCommentDialogFragment();
         Bundle args = new Bundle();
         args.putString("restaurantId", restaurant.getId());
-        args.putSerializable("commentList", (Serializable) restaurant.getCommentList()); // Cast to Serializable
+        args.putSerializable("commentList", (Serializable) restaurant.getCommentList());
 
-        // Set the arguments on the dialog
         dialog.setArguments(args);
 
         dialog.show(getChildFragmentManager(), "AddCommentDialog");
