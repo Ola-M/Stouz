@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements AddCommentDialogF
             }
         }
 
+        requestLocationPermission();
+
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         boolean isDarkTheme = sharedPreferences.getBoolean("isDarkTheme", false);
         if (isDarkTheme) {
@@ -96,8 +98,6 @@ public class MainActivity extends AppCompatActivity implements AddCommentDialogF
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         loadLocale();
-
-        requestLocationPermission();
     }
 
     @Override

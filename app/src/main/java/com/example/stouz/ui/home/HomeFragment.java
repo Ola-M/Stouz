@@ -36,6 +36,9 @@ public class HomeFragment extends Fragment {
     public List<Restaurant> restaurantList;
     public List<Restaurant> filteredList;
     public FusedLocationProviderClient fusedLocationClient;
+    private static final double ZIELONA_GORA_LATITUDE = 51.9355;
+    private static final double ZIELONA_GORA_LONGITUDE = 15.5062;
+
 
     @Nullable
     @Override
@@ -92,16 +95,27 @@ public class HomeFragment extends Fragment {
     private void getUserLocation() {
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                fetchRestaurants(location);
-                            }
+                    .addOnSuccessListener(location -> {
+                        if (location != null) {
+                            fetchRestaurants(location);
+                        } else {
+                            Location zielonaGoraLocation = new Location("provider");
+                            zielonaGoraLocation.setLatitude(ZIELONA_GORA_LATITUDE);
+                            zielonaGoraLocation.setLongitude(ZIELONA_GORA_LONGITUDE);
+                            fetchRestaurants(zielonaGoraLocation);
                         }
+                    })
+                    .addOnFailureListener(e -> {
+                        Location zielonaGoraLocation = new Location("provider");
+                        zielonaGoraLocation.setLatitude(ZIELONA_GORA_LATITUDE);
+                        zielonaGoraLocation.setLongitude(ZIELONA_GORA_LONGITUDE);
+                        fetchRestaurants(zielonaGoraLocation);
                     });
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
         }
     }
+
 
     public void fetchRestaurants(Location userLocation) {
         new RestaurantRepository().getRestaurantsList(new RestaurantRepository.DataStatus() {
